@@ -81,3 +81,35 @@ SIHUM_JUMSU inputSihumJumsu()
 
 	return data;
 }
+
+void inputSihumJumsu(SIHUM_JUMSU* pScore)
+{
+	if (pScore == NULL)
+		return;
+
+	memset(pScore, 0, sizeof(SIHUM_JUMSU));
+
+	printf("학번을 입력해주세요 : ");
+	scanf_s("%d", &pScore->hakbun);
+
+	printf("이름을 입력해주세요 : ");
+	scanf_s("%s", pScore->name, _countof(pScore->name));
+
+	printf("국어점수를 입력해주세요 : ");
+	scanf_s("%d", &pScore->subs[0]);
+
+	printf("수학점수를 입력해주세요 : ");
+	scanf_s("%d", &pScore->subs[1]);
+
+	printf("과학점수를 입력해주세요 : ");
+	scanf_s("%d", &pScore->subs[2]);
+
+	printf("영어점수를 입력해주세요 : ");
+	scanf_s("%d", &pScore->subs[3]);
+
+	for (int i = 0; i < 4; i++)
+		pScore->tot += pScore->subs[i];
+
+	pScore->avg = pScore->tot / 4.0;
+	
+}

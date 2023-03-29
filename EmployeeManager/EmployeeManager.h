@@ -41,3 +41,4 @@ JIKGUEP inputJikGuep();
 EMPLOYEE inputEmployee();
 
 SIHUM_JUMSU inputSihumJumsu();
+void inputSihumJumsu(SIHUM_JUMSU* pScore);

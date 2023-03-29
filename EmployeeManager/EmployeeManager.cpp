@@ -123,6 +123,20 @@ int main()
 	printf("총점 : %d\n", myJumsu.tot);
 	printf("평균 : %.3f\n", myJumsu.avg);
 
+	//
+	inputSihumJumsu(&myJumsu);
+	printf("학번 : %d\n", myJumsu.hakbun);
+	printf("이름 : %s\n", myJumsu.name);
+	printf("국어 : %d\n", myJumsu.subs[0]);
+	printf("수학 : %d\n", myJumsu.subs[1]);
+	printf("과학 : %d\n", myJumsu.subs[2]);
+	printf("영어 : %d\n", myJumsu.subs[3]);
+	printf("총점 : %d\n", myJumsu.tot);
+	printf("평균 : %.3f\n", myJumsu.avg);
+
+
+	// 총 3명의 시험점수 데이터를 입력받아 1차원 배열에 저장해주세요.
+
 
 	return 0;
 }
