@@ -109,34 +109,88 @@ int main()
 		fp = NULL;
 	}
 
+	
+	//// arrJumsu 구조체의 데이터를 입력받는 함수를 만들어주세요. (두가지 방법다 옳습니다.)
+	//myJumsu = inputSihumJumsu();
+	//printf("학번 : %d\n", myJumsu.hakbun);
+	//printf("이름 : %s\n", myJumsu.name);
+	//printf("국어 : %d\n", myJumsu.subs[0]);
+	//printf("수학 : %d\n", myJumsu.subs[1]);
+	//printf("과학 : %d\n", myJumsu.subs[2]);
+	//printf("영어 : %d\n", myJumsu.subs[3]);
+	//printf("총점 : %d\n", myJumsu.tot);
+	//printf("평균 : %.3f\n", myJumsu.avg);
 
-	SIHUM_JUMSU arrJumsu[3];
-
-	// arrJumsu 구조체의 데이터를 입력받는 함수를 만들어주세요. (두가지 방법다 옳습니다.)
-	myJumsu = inputSihumJumsu();
-	printf("학번 : %d\n", myJumsu.hakbun);
-	printf("이름 : %s\n", myJumsu.name);
-	printf("국어 : %d\n", myJumsu.subs[0]);
-	printf("수학 : %d\n", myJumsu.subs[1]);
-	printf("과학 : %d\n", myJumsu.subs[2]);
-	printf("영어 : %d\n", myJumsu.subs[3]);
-	printf("총점 : %d\n", myJumsu.tot);
-	printf("평균 : %.3f\n", myJumsu.avg);
-
-	//
-	inputSihumJumsu(&myJumsu);
-	printf("학번 : %d\n", myJumsu.hakbun);
-	printf("이름 : %s\n", myJumsu.name);
-	printf("국어 : %d\n", myJumsu.subs[0]);
-	printf("수학 : %d\n", myJumsu.subs[1]);
-	printf("과학 : %d\n", myJumsu.subs[2]);
-	printf("영어 : %d\n", myJumsu.subs[3]);
-	printf("총점 : %d\n", myJumsu.tot);
-	printf("평균 : %.3f\n", myJumsu.avg);
+	////
+	//inputSihumJumsu(&myJumsu);
+	//printf("학번 : %d\n", myJumsu.hakbun);
+	//printf("이름 : %s\n", myJumsu.name);
+	//printf("국어 : %d\n", myJumsu.subs[0]);
+	//printf("수학 : %d\n", myJumsu.subs[1]);
+	//printf("과학 : %d\n", myJumsu.subs[2]);
+	//printf("영어 : %d\n", myJumsu.subs[3]);
+	//printf("총점 : %d\n", myJumsu.tot);
+	//printf("평균 : %.3f\n", myJumsu.avg);
 
 
 	// 총 3명의 시험점수 데이터를 입력받아 1차원 배열에 저장해주세요.
+	SIHUM_JUMSU arrJumsu[3];
 
+	for (int i = 0; i < 3; i++)
+		inputSihumJumsu(&arrJumsu[i]);
+
+	for (int i = 0; i < 3; i++)
+	{
+		printf("학번 : %d\n", arrJumsu[i].hakbun);
+		printf("이름 : %s\n", arrJumsu[i].name);
+		printf("국어 : %d\n", arrJumsu[i].subs[0]);
+		printf("수학 : %d\n", arrJumsu[i].subs[1]);
+		printf("과학 : %d\n", arrJumsu[i].subs[2]);
+		printf("영어 : %d\n", arrJumsu[i].subs[3]);
+		printf("총점 : %d\n", arrJumsu[i].tot);
+		printf("평균 : %.3f\n", arrJumsu[i].avg);
+	}
+
+	err_code = fopen_s(&fp, "sihumjumsu.dat", "w+b");
+	if (fp && !err_code)
+	{
+		size_t ret = fwrite(arrJumsu, sizeof(SIHUM_JUMSU), 3, fp);
+		if (ret < 1)
+		{
+			printf("fread()에서 오류가 발생했습니다.");
+		}
+
+		fclose(fp);
+		fp = NULL;
+	}
+
+
+	memset(arrJumsu, 0, sizeof(SIHUM_JUMSU)*3);
+	err_code = fopen_s(&fp, "sihumjumsu.dat", "r+b");
+	if (fp && !err_code)
+	{
+		size_t ret = fread(arrJumsu, sizeof(SIHUM_JUMSU), 3, fp);
+		if (ret < 3)
+		{
+			printf("fread()에서 오류가 발생했습니다.");
+		}
+
+		for (int i = 0; i < 3; i++)
+		{
+			printf("학번 : %d\n", arrJumsu[i].hakbun);
+			printf("이름 : %s\n", arrJumsu[i].name);
+			printf("국어 : %d\n", arrJumsu[i].subs[0]);
+			printf("수학 : %d\n", arrJumsu[i].subs[1]);
+			printf("과학 : %d\n", arrJumsu[i].subs[2]);
+			printf("영어 : %d\n", arrJumsu[i].subs[3]);
+			printf("총점 : %d\n", arrJumsu[i].tot);
+			printf("평균 : %.3f\n", arrJumsu[i].avg);
+		}
+
+
+		fclose(fp);
+		fp = NULL;
+	}
 
 	return 0;
 }
