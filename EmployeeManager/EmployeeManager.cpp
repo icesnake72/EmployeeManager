@@ -57,13 +57,7 @@ int main()
 		fp = NULL;
 	}
 
-	typedef struct _SIHUM_JUMSU {
-		int		hakbun;
-		char	name[20];
-		int		subs[4];
-		int		tot = 0;
-		double	avg = 0.0;
-	} SIHUM_JUMSU;
+	
 
 	SIHUM_JUMSU	myJumsu;
 	strcpy_s(myJumsu.name, "유재석");
@@ -119,7 +113,15 @@ int main()
 	SIHUM_JUMSU arrJumsu[3];
 
 	// arrJumsu 구조체의 데이터를 입력받는 함수를 만들어주세요. (두가지 방법다 옳습니다.)
-
+	myJumsu = inputSihumJumsu();
+	printf("학번 : %d\n", myJumsu.hakbun);
+	printf("이름 : %s\n", myJumsu.name);
+	printf("국어 : %d\n", myJumsu.subs[0]);
+	printf("수학 : %d\n", myJumsu.subs[1]);
+	printf("과학 : %d\n", myJumsu.subs[2]);
+	printf("영어 : %d\n", myJumsu.subs[3]);
+	printf("총점 : %d\n", myJumsu.tot);
+	printf("평균 : %.3f\n", myJumsu.avg);
 
 
 	return 0;

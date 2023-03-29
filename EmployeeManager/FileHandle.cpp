@@ -1,6 +1,6 @@
 #include "EmployeeManager.h"
 
-
+ 
 byte inputBuseo(BUSEO *pbu)
 {
 	if (pbu == NULL)
@@ -49,4 +49,35 @@ EMPLOYEE inputEmployee()
 	scanf_s("%u", &emp.jikguep);
 
 	return emp;
+}
+
+SIHUM_JUMSU inputSihumJumsu()
+{
+	SIHUM_JUMSU data;
+	memset(&data, 0, sizeof(SIHUM_JUMSU));
+
+	printf("학번을 입력해주세요 : ");
+	scanf_s("%d", &data.hakbun);
+
+	printf("이름을 입력해주세요 : ");
+	scanf_s("%s", data.name, _countof(data.name));
+
+	printf("국어점수를 입력해주세요 : ");
+	scanf_s("%d", &data.subs[0]);
+
+	printf("수학점수를 입력해주세요 : ");
+	scanf_s("%d", &data.subs[1]);
+
+	printf("과학점수를 입력해주세요 : ");
+	scanf_s("%d", &data.subs[2]);
+
+	printf("영어점수를 입력해주세요 : ");
+	scanf_s("%d", &data.subs[3]);
+
+	for (int i = 0; i < 4; i++)
+		data.tot += data.subs[i];
+
+	data.avg = data.tot / 4.0;
+
+	return data;
 }
