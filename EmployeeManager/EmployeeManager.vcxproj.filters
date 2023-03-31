@@ -18,7 +18,10 @@
     <ClCompile Include="EmployeeManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="FileHandle.cpp">
+    <ClCompile Include="DataHandle.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="showInfo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,7 +29,7 @@
     <ClInclude Include="EmployeeManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="FileHandle.h">
+    <ClInclude Include="showInfo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

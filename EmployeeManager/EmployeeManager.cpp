@@ -1,4 +1,4 @@
-#include "EmployeeManager.h"
+#include "showInfo.h"
 
 // 인사관리
 // 기본적인 C.R.U.D 구현
@@ -9,188 +9,83 @@
 
 int main()
 {
-	// 파일로부터 부서, 직급, 사원정보를 읽어보고..
-	// 만약 파일이 없으면 첫번째 데이터를 입력받도록 한다.
-	/*if (!ReadFromFile())
-		inputBuseo();*/
+	//char* buf = NULL;
+	//buf = (char *)_malloc_dbg(1024, _NORMAL_BLOCK, NULL, NULL);
+	//// buf = (char*)malloc(1024);
+	//if (buf == NULL)
+	//{
+	//	printf("메모리 할당 실패.");
+	//	return 0;
+	//}
+	//	
+	//printf("메모리할당!!!");
 
-
-	// Read, Write, Append
-
-	FILE* fp = NULL;
-	//fp = fopen("myfile.dat", "w+t");
-	errno_t err_code = fopen_s(&fp, "myfile.txt", "w+t");
-	if (fp && !err_code)
-	{
-		// fwrite의 파라미터들:
-		// 첫번째 : Write할 데이터가 들어있는 버퍼
-		// 두번째 : element Size, 
-		// const char *myData[] = { "Hello", "How are you", "This is C Language" };
-		const char myData[] = "Hello\nThis is C Language";
-		size_t ret = fwrite(myData, sizeof(char), sizeof(myData), fp);
-		if (ret < sizeof(myData))
-		{
-			printf("파일에 쓰는도 중 오류 발생!!!");
-		}
-
-		fclose(fp);
-		fp = NULL;
-	}
-
-
-	err_code = fopen_s(&fp, "myfile.txt", "r+t");
-	if (fp && !err_code)
-	{
-		char myData[50] = { 0 };		
-		size_t ret = fread(myData, sizeof(char), sizeof(myData), fp);
-		if (!ret)
-		{
-			printf("fread()에서 오류가 발생했습니다.");
-		}
-		else
-		{
-			printf("%s", myData);
-		}
-
-
-		fclose(fp);
-		fp = NULL;
-	}
-
+	//_freea_dbg(buf, _NORMAL_BLOCK);
+	////free(buf);
 	
-
-	SIHUM_JUMSU	myJumsu;
-	strcpy_s(myJumsu.name, "유재석");
-	myJumsu.hakbun = 1;
-	myJumsu.subs[0] = 90;
-	myJumsu.subs[1] = 90;
-	myJumsu.subs[2] = 90;
-	myJumsu.subs[3] = 90;
-	for (int i = 0; i < 4; i++)
-	{
-		myJumsu.tot += myJumsu.subs[i];
-	}
-
-	myJumsu.avg = myJumsu.tot / 4.0;
-
-	err_code = fopen_s(&fp, "sihumjumsu.dat", "w+b");
-	if (fp && !err_code)
-	{
-		size_t ret = fwrite(&myJumsu, sizeof(SIHUM_JUMSU), 1, fp);
-		if (ret < 1)
-		{
-			printf("fread()에서 오류가 발생했습니다.");
-		}
-
-		fclose(fp);
-		fp = NULL;
-	}
-
-	memset(&myJumsu, 0, sizeof(SIHUM_JUMSU));
-	err_code = fopen_s(&fp, "sihumjumsu.dat", "r+b");
-	if (fp && !err_code)
-	{
-		size_t ret = fread(&myJumsu, sizeof(SIHUM_JUMSU), 1, fp);
-		if (ret < 1)
-		{
-			printf("fread()에서 오류가 발생했습니다.");
-		}
-
-		printf("학번 : %d\n", myJumsu.hakbun);
-		printf("이름 : %s\n", myJumsu.name);
-		printf("국어 : %d\n", myJumsu.subs[0]);
-		printf("수학 : %d\n", myJumsu.subs[1]);
-		printf("과학 : %d\n", myJumsu.subs[2]);
-		printf("영어 : %d\n", myJumsu.subs[3]);
-		printf("총점 : %d\n", myJumsu.tot);
-		printf("평균 : %.3f\n", myJumsu.avg);
-
-		fclose(fp);
-		fp = NULL;
-	}
-
+	// initialize... 
+	EMPLOYEE_DATA	data;
 	
-	//// arrJumsu 구조체의 데이터를 입력받는 함수를 만들어주세요. (두가지 방법다 옳습니다.)
-	//myJumsu = inputSihumJumsu();
-	//printf("학번 : %d\n", myJumsu.hakbun);
-	//printf("이름 : %s\n", myJumsu.name);
-	//printf("국어 : %d\n", myJumsu.subs[0]);
-	//printf("수학 : %d\n", myJumsu.subs[1]);
-	//printf("과학 : %d\n", myJumsu.subs[2]);
-	//printf("영어 : %d\n", myJumsu.subs[3]);
-	//printf("총점 : %d\n", myJumsu.tot);
-	//printf("평균 : %.3f\n", myJumsu.avg);
+	data.lJikSize = loadJikguep(&data.pji);
+	data.lBuseoSize = loadBuseo(&data.pbu);
+	data.lEmpSize = loadEmployee(&data.pEmp);
+	
+	showMenu();
 
-	////
-	//inputSihumJumsu(&myJumsu);
-	//printf("학번 : %d\n", myJumsu.hakbun);
-	//printf("이름 : %s\n", myJumsu.name);
-	//printf("국어 : %d\n", myJumsu.subs[0]);
-	//printf("수학 : %d\n", myJumsu.subs[1]);
-	//printf("과학 : %d\n", myJumsu.subs[2]);
-	//printf("영어 : %d\n", myJumsu.subs[3]);
-	//printf("총점 : %d\n", myJumsu.tot);
-	//printf("평균 : %.3f\n", myJumsu.avg);
-
-
-	// 총 3명의 시험점수 데이터를 입력받아 1차원 배열에 저장해주세요.
-	SIHUM_JUMSU arrJumsu[3];
-
-	for (int i = 0; i < 3; i++)
-		inputSihumJumsu(&arrJumsu[i]);
-
-	for (int i = 0; i < 3; i++)
+	int selectedMenu = TERMINATE;
+	do
 	{
-		printf("학번 : %d\n", arrJumsu[i].hakbun);
-		printf("이름 : %s\n", arrJumsu[i].name);
-		printf("국어 : %d\n", arrJumsu[i].subs[0]);
-		printf("수학 : %d\n", arrJumsu[i].subs[1]);
-		printf("과학 : %d\n", arrJumsu[i].subs[2]);
-		printf("영어 : %d\n", arrJumsu[i].subs[3]);
-		printf("총점 : %d\n", arrJumsu[i].tot);
-		printf("평균 : %.3f\n", arrJumsu[i].avg);
-	}
-
-	err_code = fopen_s(&fp, "sihumjumsu.dat", "w+b");
-	if (fp && !err_code)
-	{
-		size_t ret = fwrite(arrJumsu, sizeof(SIHUM_JUMSU), 3, fp);
-		if (ret < 1)
+		switch (selectedMenu)
 		{
-			printf("fread()에서 오류가 발생했습니다.");
+		case SHOW_EMPLOYEE:
+			showEmployee(&data);
+			break;
+
+		case INSERT_EMPLOYEE:
+			data.lEmpSize = inputEmployee(&data.pEmp, data.lEmpSize);
+			showEmployee(&data);
+			break;
+
+		case UPDATE_EMPLOYEE:
+		case DELETE_EMPLOYEE:
+		case SHOW_BUSEO:
+		case INSERT_BUSEO:
+		case UPDATE_BUSEO:
+		case DELETE_BUSEO:
+		case SHOW_JIKGUEP:
+		case INSERT_JIKGUEP:
+		case UPDATE_JIKGUEP:
+		case DELETE_JIKGUEP:
+			break;
+
+		default:			
+			break;
 		}
 
-		fclose(fp);
-		fp = NULL;
-	}
+		showMenu();
 
+	} while ((selectedMenu = getKey()) != TERMINATE);
 
-	memset(arrJumsu, 0, sizeof(SIHUM_JUMSU)*3);
-	err_code = fopen_s(&fp, "sihumjumsu.dat", "r+b");
-	if (fp && !err_code)
+	if (data.pEmp)
 	{
-		size_t ret = fread(arrJumsu, sizeof(SIHUM_JUMSU), 3, fp);
-		if (ret < 3)
-		{
-			printf("fread()에서 오류가 발생했습니다.");
-		}
-
-		for (int i = 0; i < 3; i++)
-		{
-			printf("학번 : %d\n", arrJumsu[i].hakbun);
-			printf("이름 : %s\n", arrJumsu[i].name);
-			printf("국어 : %d\n", arrJumsu[i].subs[0]);
-			printf("수학 : %d\n", arrJumsu[i].subs[1]);
-			printf("과학 : %d\n", arrJumsu[i].subs[2]);
-			printf("영어 : %d\n", arrJumsu[i].subs[3]);
-			printf("총점 : %d\n", arrJumsu[i].tot);
-			printf("평균 : %.3f\n", arrJumsu[i].avg);
-		}
-
-
-		fclose(fp);
-		fp = NULL;
+		free(data.pEmp);
+		data.pEmp = NULL;
 	}
+
+	if (data.pbu)
+	{
+		free(data.pbu);
+		data.pbu = NULL;
+	}
+
+	if (data.pji)
+	{
+		free(data.pji);
+		data.pji = NULL;
+	}
+		
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+	_CrtDumpMemoryLeaks();
 
 	return 0;
 }
