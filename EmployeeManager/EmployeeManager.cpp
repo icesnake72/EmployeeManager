@@ -26,9 +26,9 @@ int main()
 	// initialize... 
 	EMPLOYEE_DATA	data;
 	
-	data.lJikSize = loadJikguep(&data.pji);
-	data.lBuseoSize = loadBuseo(&data.pbu);
-	data.lEmpSize = loadEmployee(&data.pEmp);
+	data.lJikSize = (ulong)loadJikguep(&data.pji);
+	data.lBuseoSize = (ulong)loadBuseo(&data.pbu);
+	data.lEmpSize = (ulong)loadEmployee(&data.pEmp);
 	
 	showMenu();
 
@@ -48,12 +48,30 @@ int main()
 
 		case UPDATE_EMPLOYEE:
 		case DELETE_EMPLOYEE:
+			break;
+
 		case SHOW_BUSEO:
+			showBuseo(data.pbu, data.lBuseoSize);
+			break;
+
 		case INSERT_BUSEO:
+			data.lBuseoSize = inputBuseo(&data.pbu, data.lBuseoSize);
+			showBuseo(data.pbu, data.lBuseoSize);
+			break;
+
 		case UPDATE_BUSEO:
 		case DELETE_BUSEO:
+			break;
+
 		case SHOW_JIKGUEP:
+			showJikguep(data.pji, data.lJikSize);
+			break;
+
 		case INSERT_JIKGUEP:
+			data.lJikSize = inputJikGuep(&data.pji, data.lJikSize);
+			showJikguep(data.pji, data.lJikSize);
+			break;
+
 		case UPDATE_JIKGUEP:
 		case DELETE_JIKGUEP:
 			break;
