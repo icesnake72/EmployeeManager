@@ -283,3 +283,34 @@ size_t ReadFromFile(const char* fileName, void* pBuffer, uint bufSize)
 
 	return result;
 }
+
+EMPLOYEE* findEmployee(EMPLOYEE_DATA *pData, uint num)
+{
+	if (pData == NULL)
+		return NULL;
+
+	uint count = pData->lEmpSize / sizeof(EMPLOYEE);
+	for (uint i = 0; i < count; i++)
+	{
+		if (pData->pEmp[i].num == num)
+			return &pData->pEmp[i];
+	}
+
+	return NULL;
+}
+
+int findEmployeeIndex(EMPLOYEE_DATA* pData, uint num)
+{
+	if (pData == NULL)
+		return -1;
+
+	uint count = pData->lEmpSize / sizeof(EMPLOYEE);
+	for (uint i = 0; i < count; i++)
+	{
+		if (pData->pEmp[i].num == num)
+			return i;
+	}
+
+	return -1;
+}
+

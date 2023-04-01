@@ -28,6 +28,14 @@ void showSubMenu()
 {
     printf("\n");
     printf("메뉴보기(m)\n");
+
+    int ch = _getch();
+    switch (ch)
+    {
+    case 'm':
+    case 'M':
+        return;
+    }
 }
 
 char* getBuseoName(BUSEO* pbu, ulong lSize, uint num)
@@ -90,16 +98,6 @@ void showEmployee(EMPLOYEE_DATA *pData)
             (jikguepName == NULL) ? printf("%u\n", pData->pEmp[i].jikguep) : printf("%s\n", jikguepName);            
         }
     }
-    
-    showSubMenu();
-
-    int ch = _getch();
-    switch (ch)
-    {    
-    case 'm':
-    case 'M':
-        return;
-    }
 }
 
 void showBuseo(BUSEO* pbu, ulong lSize)
@@ -113,7 +111,7 @@ void showBuseo(BUSEO* pbu, ulong lSize)
     else
     {
         printf("부서코드\t부서명\n");
-        printf("==============================================================================\n");
+        printf("===================================================\n");
 
         ulong count = lSize / sizeof(BUSEO);
         for (uint i = 0; i < count; i++)
@@ -121,17 +119,7 @@ void showBuseo(BUSEO* pbu, ulong lSize)
             printf("%8u\t", pbu[i].num);
             printf("%s\n", pbu[i].name);
         }
-    }
-    
-    showSubMenu();
-
-    int ch = _getch();
-    switch (ch)
-    {
-    case 'm':
-    case 'M':
-        return;
-    }
+    }    
 }
 
 void showJikguep(JIKGUEP* pji, ulong lSize)
@@ -145,7 +133,7 @@ void showJikguep(JIKGUEP* pji, ulong lSize)
     else
     {        
         printf("직급코드\t직급명\n");
-        printf("==============================================================================\n");
+        printf("===================================================\n");
 
         ulong count = lSize / sizeof(JIKGUEP);
         for (uint i = 0; i < count; i++)
@@ -154,14 +142,88 @@ void showJikguep(JIKGUEP* pji, ulong lSize)
             printf("%s\n", pji[i].name);
         }
     }
+}
 
-    showSubMenu();
+byte updateEmployee(EMPLOYEE_DATA* pData)
+{
+    if (pData == NULL)
+        return RES_FAILD;
+    
+    showEmployee(pData);
 
-    int ch = _getch();
-    switch (ch)
+    printf("\n\n");
+
+    uint num = 0;
+    printf("수정할 사원번호를 입력하세요 : ");
+    scanf_s("%u", &num);
+
+    EMPLOYEE* pEmp = findEmployee(pData, num);
+    if (pEmp == NULL)
+        return 0;
+
+    printf("이름을 입력하세요 : ");
+    scanf_s("%s", pEmp->name, MAX_NAME);
+
+    printf("부서코드를 입력하세요 : ");
+    scanf_s("%u", &pEmp->buseo);
+
+    printf("직급코드를 입력하세요 : ");
+    scanf_s("%u", &pEmp->jikguep);    
+
+    WriteToFile(EMPLOYEE_FILE, pData->pEmp, pData->lEmpSize);
+
+    return RES_SUCCESS;
+}
+
+byte deleteEmployee(EMPLOYEE_DATA* pData)
+{
+    if (pData == NULL || pData->pEmp==NULL )
+        return RES_FAILD;
+
+    showEmployee(pData);
+
+    printf("\n\n");
+
+    uint num = 0;
+    printf("삭제할 사원번호를 입력하세요 : ");
+    scanf_s("%u", &num);
+
+    int index = findEmployeeIndex(pData, num);
+    if (index < 0)
+        return RES_FAILD;
+
+    long lNewSize = pData->lEmpSize - sizeof(EMPLOYEE);
+    if (lNewSize <= 0)
+        return RES_FAILD;
+
+    char* pBuffer = NULL;
+    pBuffer = (char*)malloc(lNewSize);
+    if (pBuffer == NULL)
+        return RES_FAILD;
+
+    memset(pBuffer, 0, lNewSize);
+
+    long pos = 0;
+    int count = pData->lEmpSize / sizeof(EMPLOYEE);
+    for(int i=0; i<count; i++)
     {
-    case 'm':
-    case 'M':
-        return;
+        if (i == index)
+            continue;
+
+        memcpy(pBuffer + pos, &pData->pEmp[i], sizeof(EMPLOYEE));
+        pos += sizeof(EMPLOYEE);
     }
+
+    if (pData->pEmp)
+    {
+        free(pData->pEmp);
+        pData->pEmp = NULL;
+    }
+
+    pData->pEmp = (EMPLOYEE*)pBuffer;
+    pData->lEmpSize = lNewSize;
+
+    WriteToFile(EMPLOYEE_FILE, pData->pEmp, pData->lEmpSize);
+
+    return RES_SUCCESS;
 }

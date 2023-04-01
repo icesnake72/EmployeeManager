@@ -39,24 +39,40 @@ int main()
 		{
 		case SHOW_EMPLOYEE:
 			showEmployee(&data);
+			showSubMenu();
 			break;
 
 		case INSERT_EMPLOYEE:
 			data.lEmpSize = inputEmployee(&data.pEmp, data.lEmpSize);
 			showEmployee(&data);
+			showSubMenu();
 			break;
 
 		case UPDATE_EMPLOYEE:
+			if (updateEmployee(&data))
+				showEmployee(&data);
+			else
+				printf("\n사원 정보를 수정할수 없습니다.\n");
+			showSubMenu();
+			break;
+
 		case DELETE_EMPLOYEE:
+			if (deleteEmployee(&data))
+				showEmployee(&data);
+			else
+				printf("\n사원 정보를 삭제할수 없습니다.\n");
+			showSubMenu();
 			break;
 
 		case SHOW_BUSEO:
 			showBuseo(data.pbu, data.lBuseoSize);
+			showSubMenu();
 			break;
 
 		case INSERT_BUSEO:
 			data.lBuseoSize = inputBuseo(&data.pbu, data.lBuseoSize);
 			showBuseo(data.pbu, data.lBuseoSize);
+			showSubMenu();
 			break;
 
 		case UPDATE_BUSEO:
@@ -65,11 +81,13 @@ int main()
 
 		case SHOW_JIKGUEP:
 			showJikguep(data.pji, data.lJikSize);
+			showSubMenu();
 			break;
 
 		case INSERT_JIKGUEP:
 			data.lJikSize = inputJikGuep(&data.pji, data.lJikSize);
 			showJikguep(data.pji, data.lJikSize);
+			showSubMenu();
 			break;
 
 		case UPDATE_JIKGUEP:

@@ -85,5 +85,6 @@ long getFileSize(const char* fileName);
 size_t WriteToFile(const char* fileName, void* pBuffer, uint bufSize);
 size_t ReadFromFile(const char* fileName, void* pBuffer, uint bufSize);
 
+EMPLOYEE* findEmployee(EMPLOYEE_DATA* pData, uint num);
 
 int getKey();
